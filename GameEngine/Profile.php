@@ -97,7 +97,7 @@ class Profile {
 		unset($_SESSION[$cacheKeyUser]);
 
 		// Game language.
-		$allowed = ['en', 'fr', 'it', 'ro', 'zh'];
+		$allowed = ['ru', 'en', 'fr', 'it', 'ro', 'zh'];
 		if (!empty($post['lang'])) {
 			$lang = strtolower(trim($post['lang']));
 			if (in_array($lang, $allowed, true)) {

@@ -45,6 +45,13 @@ $currentYear = date('Y');
  * Ușor de modificat ulterior
  */
 $serverVersion = 'v.10.0 Full Refactor&Redesign';
+
+/**
+ * Etichetă limbă (poate lipsi în installer, unde fișierul de limbă nu e încărcat)
+ */
+$serverRunningOnLabel = defined('TZ_SERVER_RUNNING_ON')
+    ? TZ_SERVER_RUNNING_ON
+    : '&#9654; Server running on';
 ?>
 
 <!-- ===================== FOOTER ===================== -->
@@ -69,7 +76,7 @@ $serverVersion = 'v.10.0 Full Refactor&Redesign';
                 <!-- Version -->
                 <div class="copyright">
 
-                    <?php echo TZ_SERVER_RUNNING_ON; ?>
+                    <?php echo $serverRunningOnLabel; ?>
 
                     <a href="version.php"
                        style="color:#FF5555;text-decoration:none;font-weight:bold;transition:0.3s;"

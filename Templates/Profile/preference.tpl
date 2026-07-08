@@ -196,7 +196,7 @@ if (isset($_POST['v1']) || isset($_POST['v2']) || isset($_POST['timezone']) || i
 $lang = LANG;
 if(isset($_POST['lang']))
 {
-    $allowedLangs = ['en','fr','it','ro','zh'];
+    $allowedLangs = ['ru','en','fr','it','ro','zh'];
     $selectedLang = strtolower(trim($_POST['lang']));
     if(in_array($selectedLang, $allowedLangs))
     {
@@ -518,6 +518,9 @@ if(isset($_POST['lang']))
     <th><?php echo TZ_GAME_LANGUAGE; ?></th>
     <td>
         <select name="lang" class="dropdown">
+            <option value="ru" <?php if($session->userinfo['lang']=="ru") echo 'selected'; ?>>
+                <?php echo TZ_RUSSIAN; ?>
+            </option>
             <option value="en" <?php if($session->userinfo['lang']=="en") echo 'selected'; ?>>
                 <?php echo TZ_ENGLISH; ?>
             </option>

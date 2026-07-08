@@ -2189,6 +2189,7 @@ tz_def('TZ_REPLIES', 'Replies');
 tz_def('TZ_REPORTS', 'Reports:');
 tz_def('TZ_REQUIREMENTS', 'Requirements');
 tz_def('TZ_ROMANIAN', 'Romanian');
+tz_def('TZ_RUSSIAN', 'Russian');
 tz_def('TZ_SCOUT_DEFENCES_AND_TROOPS', 'Scout defences and troops');
 tz_def('TZ_SCOUT_RESOURCES_AND_TROOPS', 'Scout resources and troops');
 tz_def('TZ_SCRIPT_PRICE', 'Script Price:');

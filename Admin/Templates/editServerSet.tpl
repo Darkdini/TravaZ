@@ -105,6 +105,7 @@ function refresh(tz) {
                     <td class="b"><?php echo CONF_SERV_LANG ?> <em class="tooltip">?<span class="classic"><?php echo CONF_SERV_LANG_TOOLTIP ?></span></em></td>
                     <td>
                         <select name="lang">
+                            <option value="ru" <?php if ((defined('SERVER_LANG') ? SERVER_LANG : LANG)=="ru") echo "selected";?>>Русский</option>
                             <option value="en" <?php if ((defined('SERVER_LANG') ? SERVER_LANG : LANG)=="en") echo "selected";?>>English</option>
                             <option value="fr" <?php if ((defined('SERVER_LANG') ? SERVER_LANG : LANG)=="fr") echo "selected";?>>French</option>
                             <option value="es" <?php if ((defined('SERVER_LANG') ? SERVER_LANG : LANG)=="it") echo "selected";?>>Italian</option>
