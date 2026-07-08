@@ -3,7 +3,10 @@
 if($_POST && count($_POST)) 
 { 
     include_once('GameEngine/config.php');
-    $strEmpfaenger = (ADMIN_EMAIL ? ADMIN_EMAIL : (PAYPAL_EMAIL ? PAYPAL_EMAIL : 'martin@martinambrus.com'));
+    // Contact form recipient: the server's own admin/PayPal address only.
+    // (Removed the hardcoded third-party fallback 'martin@martinambrus.com'.)
+    $strEmpfaenger = (ADMIN_EMAIL ? ADMIN_EMAIL : (PAYPAL_EMAIL ? PAYPAL_EMAIL : ''));
+    if ($strEmpfaenger === '') { die('Contact form is not configured.'); }
     
     $strFrom = "From: TravianiX Support <$strEmpfaenger>\n";
     $strFrom .= "X-Sender: <$strEmpfaenger>\n";
