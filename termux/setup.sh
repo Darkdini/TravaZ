@@ -38,14 +38,19 @@ else
     echo "==> MariaDB data directory already initialised, skipping."
 fi
 
+# Prefer the mariadb-named client tools; fall back to the (deprecated) mysql* aliases.
+DBADMIN="$(command -v mariadb-admin || command -v mysqladmin)"
+DBCLIENT="$(command -v mariadb || command -v mysql)"
+
 # --- 3. Start MariaDB (if not already running) --------------------------------
-if ! mysqladmin ping --silent 2>/dev/null; then
+if ! "$DBADMIN" ping --silent 2>/dev/null; then
     echo "==> Starting MariaDB..."
+    mkdir -p "$PREFIX/tmp"
     mariadbd-safe --datadir="$DB_DATADIR" >"$PREFIX/tmp/mariadb.log" 2>&1 &
 
     echo -n "    waiting for MariaDB to accept connections"
     for i in $(seq 1 30); do
-        if mysqladmin ping --silent 2>/dev/null; then
+        if "$DBADMIN" ping --silent 2>/dev/null; then
             echo " ok"
             break
         fi
@@ -58,7 +63,7 @@ fi
 
 # --- 4. Create database + user ------------------------------------------------
 echo "==> Creating database and user..."
-mysql -u root <<SQL
+"$DBCLIENT" -u root <<SQL
 CREATE DATABASE IF NOT EXISTS \`$DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';
 CREATE USER IF NOT EXISTS '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';

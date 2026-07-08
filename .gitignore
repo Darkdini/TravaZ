@@ -27,6 +27,9 @@ Templates/text.tpl
 /installed_*/
 /var/installed
 
+# PHP session files written at runtime (Termux start.sh points here)
+/var/sessions/
+
 # Eclipse settings
 .settings
 
