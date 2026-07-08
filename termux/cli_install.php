@@ -48,8 +48,18 @@ $cfg = [
 
 echo "==> Generating GameEngine/config.php ...\n";
 
-$tpl = file_get_contents($root . '/install/data/constant_format.tpl');
-if ($tpl === false) { fwrite(STDERR, "Cannot read install/data/constant_format.tpl\n"); exit(1); }
+// The web installer renames install/ -> installed_<timestamp>/ after a
+// successful run, so fall back to any installed_* copy of the template.
+$tplPath = $root . '/install/data/constant_format.tpl';
+if (!is_file($tplPath)) {
+    $alt = glob($root . '/installed_*/data/constant_format.tpl');
+    if ($alt) { $tplPath = $alt[0]; }
+}
+$tpl = @file_get_contents($tplPath);
+if ($tpl === false) {
+    fwrite(STDERR, "Cannot read the config template (looked for install/data/constant_format.tpl and installed_*/data/constant_format.tpl).\n");
+    exit(1);
+}
 
 $now = time();
 $map = [
