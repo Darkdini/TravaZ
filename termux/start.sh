@@ -39,6 +39,19 @@ if ! "$DBADMIN" ping --silent 2>/dev/null; then
     done
 fi
 
+# --- Detect MariaDB's Unix socket ---------------------------------------------
+# When the DB host is "localhost", mysqli/PDO ignore the port and connect via a
+# Unix socket. PHP's compiled default socket path does not match MariaDB's on
+# Termux, which fails with "No such file or directory". Detect the real socket
+# and hand it to PHP so a "localhost" host works too (127.0.0.1 uses TCP).
+DBCLIENT="$(command -v mariadb || command -v mysql)"
+DB_SOCKET="$("$DBCLIENT" -u root -N -B -e 'SELECT @@socket;' 2>/dev/null | head -n1)"
+SOCKET_OPTS=()
+if [ -n "$DB_SOCKET" ]; then
+    SOCKET_OPTS=(-d "mysqli.default_socket=$DB_SOCKET" -d "pdo_mysql.default_socket=$DB_SOCKET")
+    echo "==> MariaDB socket: $DB_SOCKET"
+fi
+
 echo "==> Starting PHP server on http://localhost:$PORT"
 echo "    Installer: http://localhost:$PORT/install"
 echo "    Press Ctrl+C to stop."
@@ -55,5 +68,6 @@ exec php \
     -d upload_tmp_dir="$TZ_TMP" \
     -d opcache.enable=0 \
     -d opcache.enable_cli=0 \
+    "${SOCKET_OPTS[@]}" \
     -S 0.0.0.0:"$PORT" \
     termux/router.php

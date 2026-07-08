@@ -90,6 +90,12 @@ http://localhost:8080/install
   сессии в `var/sessions/` внутри проекта, так что эта ошибка не возникает.
   Если запускаете сервер вручную — добавьте
   `-d session.save_path=$PWD/var/sessions` (каталог создайте заранее).
+- **`Database connection failed: No such file or directory`** — в поле Host был
+  указан `localhost`. MySQL/MariaDB в этом случае игнорирует порт и подключается
+  через Unix-сокет, путь которого в PHP по умолчанию не совпадает с сокетом
+  MariaDB на Termux. `start.sh` теперь автоматически определяет реальный сокет и
+  передаёт его PHP, так что и `localhost`, и `127.0.0.1` работают. Если правите
+  вручную — используйте Host `127.0.0.1` (это принудительно включает TCP).
 - **`Deprecated program name` для `mysql`/`mysqladmin`** — безобидное
   предупреждение; скрипты уже предпочитают команды `mariadb`/`mariadb-admin`.
 
