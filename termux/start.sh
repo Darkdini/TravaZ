@@ -52,6 +52,15 @@ if [ -n "$DB_SOCKET" ]; then
     echo "==> MariaDB socket: $DB_SOCKET"
 fi
 
+# --- Free the port from a previous instance of this server, if any ------------
+# Ctrl+C does not always kill the built-in server cleanly, leaving the port
+# bound ("Address already in use"). Match only the server on THIS port so other
+# instances on different ports are left alone.
+if pkill -f "0.0.0.0:$PORT" 2>/dev/null; then
+    echo "==> Stopped a previous server on port $PORT"
+    sleep 1
+fi
+
 echo "==> Starting PHP server on http://localhost:$PORT"
 echo "    Installer: http://localhost:$PORT/install"
 echo "    Press Ctrl+C to stop."
