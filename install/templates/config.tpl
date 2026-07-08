@@ -66,11 +66,16 @@ if(file_exists($envPath)) {
     }
 }
 
-$dbHost = $envDefaults['DB_HOST']?? 'localhost';
+// Fallbacks match the database created by termux/setup.sh so a bare install
+// (no .env, e.g. on Termux) works out of the box. When a .env is present
+// (Docker) its values take precedence and these defaults are not used.
+// Host defaults to 127.0.0.1 (TCP) rather than "localhost" to avoid the Unix
+// socket path, which does not match PHP's default on Termux.
+$dbHost = $envDefaults['DB_HOST']?? '127.0.0.1';
 $dbPort = $envDefaults['DB_PORT']?? '3306';
-$dbUser = $envDefaults['MARIADB_USER']?? ($envDefaults['MYSQL_USER']?? '');
-$dbPass = $envDefaults['MARIADB_PASSWORD']?? ($envDefaults['MYSQL_PASSWORD']?? '');
-$dbName = $envDefaults['MARIADB_DATABASE']?? ($envDefaults['MYSQL_DATABASE']?? '');
+$dbUser = $envDefaults['MARIADB_USER']?? ($envDefaults['MYSQL_USER']?? 'travianz');
+$dbPass = $envDefaults['MARIADB_PASSWORD']?? ($envDefaults['MYSQL_PASSWORD']?? 'travianzpass');
+$dbName = $envDefaults['MARIADB_DATABASE']?? ($envDefaults['MYSQL_DATABASE']?? 'travian');
 
 if(empty($_SESSION['install_random_prefix'])) {
     try {
