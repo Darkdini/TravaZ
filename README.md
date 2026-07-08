@@ -196,6 +196,26 @@ Then open:
 
 Detailed container guide: [DOCKER_README.md](DOCKER_README.md)
 
+## Quick Start (Termux / Android)
+
+Run the game directly on an Android phone with Termux — no Docker, no root
+(PHP built-in server + native MariaDB). The interface ships with a full
+Russian translation and Russian is the default language.
+
+```bash
+pkg update -y && pkg install -y git
+git clone https://github.com/Darkdini/TravaZ.git
+cd TravaZ
+bash termux/setup.sh     # installs php + mariadb, creates the database (run once)
+bash termux/start.sh     # starts MariaDB + the web server on port 8080
+```
+
+Then open `http://localhost:8080/install` and use these database settings:
+Host `127.0.0.1`, Port `3306`, Database `travian`, User `travianz`,
+Password `travianzpass`.
+
+Step-by-step guide (in Russian): [termux/TERMUX_README.md](termux/TERMUX_README.md)
+
 ## System Requirements
 
 Recommended:
